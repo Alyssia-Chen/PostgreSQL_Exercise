@@ -1,3 +1,32 @@
 from django.shortcuts import render
+from django.views import generic
+from .models import Post
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+
 
 # Create your views here.
+class IndexView(generic.ListView):
+    template_name = 'blogs/index.html'
+    context_object_name = 'blogs_list'
+
+    def get_queryset(self):
+        """Return all the blogs."""
+        return Post.objects.all()
+
+class CreateView(generic.edit.CreateView):
+    template_name = 'blogs/create.html'
+    model = Post
+    fields = ['text', 'title', 'author']
+    success_url = reverse_lazy('blogs:index')
+
+class UpdateView(generic.edit.UpdateView):
+    template_name = 'blogs/update.html'
+    model = Post
+    fields = ['text', 'title']
+    success_url = reverse_lazy('blogs:index')
+
+class DeleteView(generic.edit.DeleteView):
+    template_name = 'blogs/delete.html' # override default of greetings/greeting_confirm_delete.html
+    model = Post
+    success_url = reverse_lazy('blogs:index')
