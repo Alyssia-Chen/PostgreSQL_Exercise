@@ -3,7 +3,14 @@
         <ul>
         <h2> Hello {{user.username}}!</h2>
         <a href="{% url 'blogs:create' %}">Create a New Post</a>
-        {% for blog in blogs_list %}
+        <br>
+        <form method="GET">
+            {{ filter.form }}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
+
+        {% for blog in filter.qs %}
             <li>
                 <h4>{{ blog.title }}<br></h4>
                 Text: {{ blog.text }} <br>

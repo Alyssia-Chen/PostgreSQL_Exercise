@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from django.urls.base import set_urlconf
 from django.views import generic
 from .models import Post
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-
+from .filters import PostFilter
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -13,6 +14,11 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return all the blogs."""
         return Post.objects.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 class CreateView(generic.edit.CreateView):
     template_name = 'blogs/create.html'
