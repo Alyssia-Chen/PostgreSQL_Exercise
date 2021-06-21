@@ -5,6 +5,7 @@ from .models import Post
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from .filters import PostFilter
+from django.utils import timezone
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -52,7 +53,22 @@ class FilterAuthorView(generic.ListView):
 
     def get_queryset(self):
         """Return all the blogs."""
-        # FIX Hardcoded admin
-        # self.request.
         me = User.objects.get(username=self.request.user)
         return Post.objects.filter(author=me)
+
+class OrderDateView(generic.ListView):
+    template_name = 'blogs/orddate.html'
+    context_object_name = 'blogs_list'
+
+    def get_queryset(self):
+        """Return all the blogs."""
+        return Post.objects.order_by('-published_date')
+
+
+class TodayView(generic.ListView):
+    template_name = 'blogs/today.html'
+    context_object_name = 'blogs_list'
+
+    def get_queryset(self):
+        """Return all the blogs."""
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')

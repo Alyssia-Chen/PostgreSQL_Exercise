@@ -1,4 +1,4 @@
-<h1>Your posts</h1>
+<h1>Newest to Oldest Posts</h1>
 <a href="{% url 'blogs:index' %}">HOME</a>
 {% if blogs_list %}
         <ul>
@@ -17,5 +17,5 @@
         </ul>
 
 {% else %}
-    <p>You haven't written any posts</p>
+    <p>No posts exist</p>
 {% endif %}

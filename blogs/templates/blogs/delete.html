@@ -1,3 +1,4 @@
+<a href="{% url 'blogs:index' %}">HOME</a>
 <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ object.text }}"?</p>
     <input type="submit" value="Confirm">
