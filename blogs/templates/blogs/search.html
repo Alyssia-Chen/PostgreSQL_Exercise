@@ -1,10 +1,16 @@
-<h1>All Blogs List</h1>
+<h1>Blog List</h1>
 {% if blogs_list %}
         <ul>
         <h2> Hello {{user.username}}!</h2>
-        <a href="{% url 'blogs:create' %}">Create a New Post</a>
+        <h3>What would you like to find?</h3>
+        <br>
+        <form method="GET">
+            {{ filter.form }}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
         
-        {% for blog in blogs_list %}
+
+        {% for blog in filter.qs %}
             <li>
                 <h4>{{ blog.title }}<br></h4>
                 Text: {{ blog.text }} <br>
@@ -13,13 +19,9 @@
                 <span><a href="{% url 'blogs:update' blog.id %}">edit</a></span>
                 <span><a href="{% url 'blogs:delete' blog.id %}">delete</a></span>
             </li>
-            <p> {{blog.author}} == {{user.username}}</p>
-            {% if blog.author == user %}
-                <p> --You wrote this article</p>
-            {% endif %}
         {% endfor %}
         </ul>
 
 {% else %}
-    <p>No one has written any posts</p>
+    <p>You haven't written any posts</p>
 {% endif %}

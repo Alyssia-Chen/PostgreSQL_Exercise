@@ -14,6 +14,14 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return all the blogs."""
         return Post.objects.all()
+
+class SearchView(generic.ListView):
+    template_name = 'blogs/search.html'
+    context_object_name = 'blogs_list'
+
+    def get_queryset(self):
+        """Return all the blogs."""
+        return Post.objects.all()
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,3 +44,15 @@ class DeleteView(generic.edit.DeleteView):
     template_name = 'blogs/delete.html' # override default of greetings/greeting_confirm_delete.html
     model = Post
     success_url = reverse_lazy('blogs:index')
+
+# Filtered Pages
+class FilterAuthorView(generic.ListView):
+    template_name = 'blogs/filauthor.html'
+    context_object_name = 'blogs_list'
+
+    def get_queryset(self):
+        """Return all the blogs."""
+        # FIX Hardcoded admin
+        # self.request.
+        me = User.objects.get(username=self.request.user)
+        return Post.objects.filter(author=me)

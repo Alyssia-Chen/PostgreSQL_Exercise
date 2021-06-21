@@ -1,8 +1,7 @@
-<h1>All Blogs List</h1>
+<h1>Your posts</h1>
 {% if blogs_list %}
         <ul>
         <h2> Hello {{user.username}}!</h2>
-        <a href="{% url 'blogs:create' %}">Create a New Post</a>
         
         {% for blog in blogs_list %}
             <li>
@@ -13,13 +12,9 @@
                 <span><a href="{% url 'blogs:update' blog.id %}">edit</a></span>
                 <span><a href="{% url 'blogs:delete' blog.id %}">delete</a></span>
             </li>
-            <p> {{blog.author}} == {{user.username}}</p>
-            {% if blog.author == user %}
-                <p> --You wrote this article</p>
-            {% endif %}
         {% endfor %}
         </ul>
 
 {% else %}
-    <p>No one has written any posts</p>
+    <p>You haven't written any posts</p>
 {% endif %}
